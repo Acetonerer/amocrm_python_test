@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "drf_yasg",
 
     "metric",
     "incident",
@@ -144,6 +145,6 @@ CELERY_TIMEZONE = "Asia/Krasnoyarsk"
 CELERY_BEAT_SCHEDULE = {
     "start_save_and_check_task": {
         "task": "tasks_manager.tasks.start_save_and_check_task",
-        "schedule": crontab(minute='*')
+        "schedule": crontab(minute='*/15')
     },
 }
