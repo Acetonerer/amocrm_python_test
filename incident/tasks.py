@@ -31,7 +31,7 @@ def check_cpu_and_mem(*args, **kwargs):
                 value_of_parameter=avg_mem,
                 message=f"Memory usage more than 90% (actual: {avg_mem}%) for 30 minutes"
             )
-    print("Проверка цп и мемов завершена")
+    print("Проверка цпу и мемов завершена")
 
 
 @shared_task
@@ -51,5 +51,5 @@ def check_disk(*args, **kwargs):
                 value_of_parameter=avg_disk,
                 message=f"Disk usage more than 95% (actual: {avg_disk}%) for 2 hours "
             )
-    print("Проверка нормального диска завершена")
+    print("Проверка диска завершена")
 
