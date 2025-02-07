@@ -39,7 +39,7 @@ def check_cpu_and_mem(*args, **kwargs):
 @shared_task
 def check_disk(*args, **kwargs):
     """
-    Проверка среднего значения Disk через алгоритм скользящего окна
+    Проверка среднего значения Disk
     """
     machines = MetricStorage.objects.values("machine_ip").distinct()
     for machine in machines:
