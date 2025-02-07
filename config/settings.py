@@ -145,7 +145,7 @@ CELERY_TIMEZONE = "Asia/Krasnoyarsk"
 CELERY_BEAT_SCHEDULE = {
     "start_save_and_check_task": {
         "task": "tasks_manager.tasks.start_save_and_check_task",
-        "schedule": crontab(minute='*/15')
+        "schedule": crontab(minute="*/15"),
     },
 }
 

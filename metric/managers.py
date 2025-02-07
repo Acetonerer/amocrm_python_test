@@ -10,7 +10,7 @@ class MetricStorageManager(models.Manager):
         для последних n записей, связанных с машиной по IP-адресу.
         """
 
-        records = self.filter(machine_ip=machine_ip).order_by('-created_at')[:n]
+        records = self.filter(machine_ip=machine_ip).order_by("-created_at")[:n]
         total_value = 0
 
         for record in records:
@@ -19,8 +19,8 @@ class MetricStorageManager(models.Manager):
             if field_value is None:
                 return False
 
-            if isinstance(field_value, str) and '%' in field_value:
-                field_value = field_value.replace('%', '')
+            if isinstance(field_value, str) and "%" in field_value:
+                field_value = field_value.replace("%", "")
             try:
                 field_value = float(field_value)
             except ValueError:

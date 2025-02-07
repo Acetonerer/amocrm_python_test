@@ -10,5 +10,5 @@ class IncidentManager(models.Manager):
             machine_ip=machine_ip,
             type_of_parameter=type_of_parameter,
             value_of_parameter=str(value_of_parameter),
-            message=message
+            message=message,
         )

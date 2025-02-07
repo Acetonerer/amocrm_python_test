@@ -14,4 +14,3 @@ class Incident(models.Model):
 
     class Meta:
         db_table = "incident_storage"
-        

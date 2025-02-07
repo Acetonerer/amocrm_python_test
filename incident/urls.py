@@ -3,5 +3,5 @@ from incident.views import IncidentListView
 
 
 urlpatterns = [
-    path('incidents/', IncidentListView.as_view(), name='incident-list'),
+    path("incidents/", IncidentListView.as_view(), name="incident-list"),
 ]
