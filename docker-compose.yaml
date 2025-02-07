@@ -1,0 +1,81 @@
+
+services:
+
+  db:
+    image: mysql:8.0
+    container_name: db
+    env_file:
+      - .env
+    volumes:
+      - mysql_data:/var/lib/mysql
+    expose:
+      - '3306'
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-ptankist230101" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    restart: always
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: backend_amocrm
+    env_file:
+      - .env
+    volumes:
+      - ./:/code
+      - static:/code/static
+    command: >
+      sh -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver"
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    restart: always
+
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - '6380:6379'
+    command: ["redis-server", "--appendonly", "no"]
+    depends_on:
+      - db
+    volumes:
+      - redis_data:/data
+
+  celery_worker:
+    build: .
+    tty: true
+    container_name: celery_worker
+    restart: always
+
+    command: celery -A config worker -l info
+    volumes:
+      - ./:/code
+    working_dir: /code
+    depends_on:
+      - redis
+      - backend
+
+  celery_beat:
+    build: .
+    tty: true
+    container_name: celery_beat
+    restart: always
+
+    command: celery -A config beat -l info
+    volumes:
+      - ./:/code
+    working_dir: /code
+    depends_on:
+      - redis
+      - backend
+
+volumes:
+  mysql_data:
+  redis_data:
+  static:
