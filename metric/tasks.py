@@ -27,5 +27,6 @@ def get_and_save_metric():
             MetricStorage.objects.bulk_create(valid_metrics)
             print("Метрики зафиксированы")
     except requests.RequestException as error:
-        print(f"Возник момент при попытке обратиться к эндпоинту."
+        print(f"Возникла момент при попытке обратиться к эндпоинту."
               f"Вот текст: {error}")
+        raise

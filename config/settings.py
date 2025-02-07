@@ -148,3 +148,7 @@ CELERY_BEAT_SCHEDULE = {
         "schedule": crontab(minute='*/15')
     },
 }
+
+MAX_CPU = 85
+MAX_MEM = 90
+MAX_DISK = 95

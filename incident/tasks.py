@@ -1,4 +1,6 @@
 from celery import shared_task
+
+from config.settings import MAX_CPU, MAX_MEM, MAX_DISK
 from metric.models import MetricStorage
 from incident.models import Incident
 
@@ -14,7 +16,7 @@ def check_cpu_and_mem(*args, **kwargs):
     for machine in machines:
         machine_ip = machine['machine_ip']
 
-        cpu_exceeded, avg_cpu = MetricStorage.objects.check_threshold(machine_ip, 'cpu', 85, 3)
+        cpu_exceeded, avg_cpu = MetricStorage.objects.check_threshold(machine_ip, 'cpu', MAX_CPU, 3)
         if cpu_exceeded:
             Incident.objects.create_incident(
                 machine_ip=machine_ip,
@@ -23,7 +25,7 @@ def check_cpu_and_mem(*args, **kwargs):
                 message=f"CPU usage more than 85% (actual: {avg_cpu}%) for 30 minutes"
             )
 
-        mem_exceeded, avg_mem = MetricStorage.objects.check_threshold(machine_ip, 'mem', 90, 3)
+        mem_exceeded, avg_mem = MetricStorage.objects.check_threshold(machine_ip, 'mem', MAX_MEM, 3)
         if mem_exceeded:
             Incident.objects.create_incident(
                 machine_ip=machine_ip,
@@ -43,7 +45,7 @@ def check_disk(*args, **kwargs):
     for machine in machines:
         machine_ip = machine['machine_ip']
 
-        disk_exceeded, avg_disk = MetricStorage.objects.check_threshold(machine_ip, 'disk', 95, 9)
+        disk_exceeded, avg_disk = MetricStorage.objects.check_threshold(machine_ip, 'disk', MAX_DISK, 9)
         if disk_exceeded:
             Incident.objects.create_incident(
                 machine_ip=machine_ip,
